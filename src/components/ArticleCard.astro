@@ -9,9 +9,22 @@ export interface Props {
 const { post } = Astro.props;
 const { title, description, pubDate, category, tags } = post.data;
 const url = `/blog/${post.id}/`;
+
+const tagToneByCategory: Record<string, string> = {
+  ツールレビュー:
+    'text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-500/15 dark:hover:bg-emerald-500/25',
+  ツール比較:
+    'text-purple-700 bg-purple-50 hover:bg-purple-100 dark:text-purple-300 dark:bg-purple-500/15 dark:hover:bg-purple-500/25',
+  実装してみた:
+    'text-orange-700 bg-orange-50 hover:bg-orange-100 dark:text-orange-300 dark:bg-orange-500/15 dark:hover:bg-orange-500/25',
+  学習記録:
+    'text-sky-700 bg-sky-50 hover:bg-sky-100 dark:text-sky-300 dark:bg-sky-500/15 dark:hover:bg-sky-500/25',
+};
+
+const tagToneClass = tagToneByCategory[category] ?? tagToneByCategory['学習記録'];
 ---
 
-<article class="group border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-primary)]/30 transition-colors">
+<article class="group border border-[var(--color-border)] rounded-lg p-6 shadow-lg shadow-slate-900/5 dark:shadow-black/20 hover:-translate-y-0.5 hover:shadow-xl hover:border-[var(--color-primary)]/30 hover:bg-[var(--color-bg-alt)] transition-all duration-200 ease-out">
   <a href={url} class="no-underline">
     <div class="flex items-center gap-2 text-xs mb-2">
       <span class="px-2 py-0.5 rounded-full bg-[var(--color-bg-alt)] text-[var(--color-text-muted)] border border-[var(--color-border)]">
@@ -35,7 +48,7 @@ const url = `/blog/${post.id}/`;
         {tags.map((tag) => (
           <a
             href={`/tags/${encodeURIComponent(tag)}/`}
-            class="text-xs px-2 py-0.5 rounded hover:bg-[var(--color-bg-alt)] transition-colors text-[var(--color-text-muted)]"
+            class={`text-xs px-2 py-0.5 rounded transition-colors ${tagToneClass}`}
           >
             #{tag}
           </a>

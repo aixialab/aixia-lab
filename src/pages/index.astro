@@ -10,26 +10,41 @@ const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pu
 
 <Layout title={SITE.name} description={SITE.subtitle}>
   <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-alt)]">
-    <div class="max-w-5xl mx-auto px-4 py-16 sm:py-20 text-center">
-      <h1 class="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
-        {SITE.name}
-      </h1>
-      <p class="text-lg text-[var(--color-text-muted)] mb-6 max-w-xl mx-auto leading-relaxed">
-        {SITE.subtitle}。
-        <br class="hidden sm:block" />
-        Claude Code、OpenCode、Cursor等のAIツールを実際に使った体験記・比較・検証を発信します。
-      </p>
-      <a
-        href="/about/"
-        class="inline-flex items-center text-sm text-[var(--color-primary)] hover:underline"
-      >
-        このサイトについて →
-      </a>
+    <div class="max-w-5xl mx-auto px-4 py-10 sm:py-12 min-h-[34vh] sm:min-h-[38vh] flex items-center justify-center text-center">
+      <div>
+        <h1 class="text-[2rem] sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.35] mb-5">
+          未経験者が <span class="text-[var(--color-primary)]">AI Coding</span> で試行錯誤する記録
+        </h1>
+
+        <p class="text-base sm:text-lg text-[var(--color-text-muted)] max-w-3xl mx-auto leading-relaxed mb-7">
+          Claude Code、OpenCode、Cursor 等の AI コーディングツールを実際に使った
+          <br class="hidden sm:block" />
+          体験記・比較・検証を発信します。
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href="/about/"
+            class="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] border border-[var(--color-primary)] hover:opacity-90 transition-opacity"
+          >
+            About →
+          </a>
+          <a
+            href="#latest-posts"
+            class="inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold text-[var(--color-text)] border border-[var(--color-border)] hover:bg-[var(--color-bg)] transition-colors"
+          >
+            すべての記事 →
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="max-w-5xl mx-auto px-4 py-12">
-    <h2 class="text-xl font-bold mb-6">最新記事</h2>
+  <section id="latest-posts" class="max-w-5xl mx-auto px-4 py-12">
+    <div class="mb-8 text-center">
+      <h2 class="text-xl font-bold">最新記事</h2>
+      <div class="mx-auto mt-2 h-px w-14 bg-[var(--color-border)]"></div>
+    </div>
 
     {sortedPosts.length === 0 ? (
       <p class="text-[var(--color-text-muted)]">まだ記事がありません。</p>

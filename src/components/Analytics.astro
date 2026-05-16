@@ -1,5 +1,6 @@
 ---
-const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const defaultGaId = 'G-YH9JP6L1PW';
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || defaultGaId;
 const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
 ---
 
@@ -15,7 +16,7 @@ const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
           dataLayer.push(arguments);
         }
         gtag('js', new Date());
-        gtag('config', gaId, { anonymize_ip: true });
+        gtag('config', gaId);
       </script>
     </>
   )
