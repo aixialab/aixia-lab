@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SEO from '../components/SEO.astro';
 import Analytics from '../components/Analytics.astro';
+import ThemeScript from '../components/ThemeScript.astro';
 import { SITE } from '../constants/site';
 import '../styles/global.css';
 
@@ -22,6 +23,7 @@ const { title, description, ogImage, type, pubDate, updatedDate, tags } = Astro.
 <!doctype html>
 <html lang={SITE.lang}>
   <head>
+    <ThemeScript />
     <Analytics />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
