@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const tagMap = new Map<string, number>();
+
+allPosts.forEach((post) => {
+  post.data.tags.forEach((tag) => {
+    tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1);
+  });
+});
+
+const tags = Array.from(tagMap.entries())
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'ja'));
+---
+
+<Layout title="タグ一覧" description="AIXIA Labのタグ一覧">
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold mb-2">タグ</h1>
+    <p class="text-[var(--color-text-muted)] mb-8">{tags.length}件のタグ</p>
+
+    {tags.length === 0 ? (
+      <p class="text-[var(--color-text-muted)]">まだタグがありません。</p>
+    ) : (
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <a
+            href={`/tags/${encodeURIComponent(tag.name)}/`}
+            class="px-3 py-1.5 rounded-full border border-[var(--color-border)] text-sm text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 transition-colors no-underline"
+          >
+            #{tag.name} <span class="opacity-70">({tag.count})</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</Layout>

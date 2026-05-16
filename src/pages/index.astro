@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../constants/site';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout title={SITE.name} description={SITE.subtitle}>
+  <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-alt)]">
+    <div class="max-w-5xl mx-auto px-4 py-16 sm:py-20 text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
+        {SITE.name}
+      </h1>
+      <p class="text-lg text-[var(--color-text-muted)] mb-6 max-w-xl mx-auto leading-relaxed">
+        {SITE.subtitle}。
+        <br class="hidden sm:block" />
+        Claude Code、OpenCode、Cursor等のAIツールを実際に使った体験記・比較・検証を発信します。
+      </p>
+      <a
+        href="/about/"
+        class="inline-flex items-center text-sm text-[var(--color-primary)] hover:underline"
+      >
+        このサイトについて →
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h2 class="text-xl font-bold mb-6">最新記事</h2>
+
+    {sortedPosts.length === 0 ? (
+      <p class="text-[var(--color-text-muted)]">まだ記事がありません。</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2">
+        {sortedPosts.map((post) => <ArticleCard post={post} />)}
+      </div>
+    )}
+  </section>
+</Layout>

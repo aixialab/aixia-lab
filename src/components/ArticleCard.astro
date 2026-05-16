@@ -1,0 +1,46 @@
+---
+import { formatDate } from '../utils/helpers';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, category, tags } = post.data;
+const url = `/blog/${post.id}/`;
+---
+
+<article class="group border border-[var(--color-border)] rounded-lg p-6 hover:border-[var(--color-primary)]/30 transition-colors">
+  <a href={url} class="no-underline">
+    <div class="flex items-center gap-2 text-xs mb-2">
+      <span class="px-2 py-0.5 rounded-full bg-[var(--color-bg-alt)] text-[var(--color-text-muted)] border border-[var(--color-border)]">
+        {category}
+      </span>
+      <time datetime={pubDate.toISOString()} class="text-[var(--color-text-muted)]">
+        {formatDate(pubDate)}
+      </time>
+    </div>
+
+    <h2 class="text-lg font-bold mb-2 group-hover:text-[var(--color-primary)] transition-colors leading-snug">
+      {title}
+    </h2>
+
+    <p class="text-sm text-[var(--color-text-muted)] line-clamp-2">
+      {description}
+    </p>
+
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-1 mt-3">
+        {tags.map((tag) => (
+          <a
+            href={`/tags/${encodeURIComponent(tag)}/`}
+            class="text-xs px-2 py-0.5 rounded hover:bg-[var(--color-bg-alt)] transition-colors text-[var(--color-text-muted)]"
+          >
+            #{tag}
+          </a>
+        ))}
+      </div>
+    )}
+  </a>
+</article>

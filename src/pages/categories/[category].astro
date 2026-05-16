@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../../constants/site';
+
+export async function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category },
+  }));
+}
+
+const { category = '' } = Astro.params;
+const currentCategory = (() => {
+  try {
+    return decodeURIComponent(category);
+  } catch {
+    return category;
+  }
+})();
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((p) => p.data.category === currentCategory)
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout
+  title={currentCategory}
+  description={`AIXIA Lab - ${currentCategory}カテゴリの記事一覧`}
+>
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold mb-2">{currentCategory}</h1>
+    <p class="text-[var(--color-text-muted)] mb-8">{posts.length}件の記事</p>
+
+    {posts.length === 0 ? (
+      <p class="text-[var(--color-text-muted)]">まだ記事がありません。</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2">
+        {posts.map((post) => <ArticleCard post={post} />)}
+      </div>
+    )}
+
+    <div class="mt-8">
+      <a href="/categories/" class="text-sm text-[var(--color-primary)] hover:underline">
+        ← 全カテゴリ一覧
+      </a>
+    </div>
+  </div>
+</Layout>

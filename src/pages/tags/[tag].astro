@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const tagSet = new Set<string>();
+  allPosts.forEach((post) => post.data.tags.forEach((tag) => tagSet.add(tag)));
+  return Array.from(tagSet).map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const { tag = '' } = Astro.params;
+const currentTag = (() => {
+  try {
+    return decodeURIComponent(tag);
+  } catch {
+    return tag;
+  }
+})();
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((p) => p.data.tags.includes(currentTag))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout
+  title={`#${currentTag}`}
+  description={`AIXIA Lab - タグ「${currentTag}」の記事一覧`}
+>
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold mb-2">#{currentTag}</h1>
+    <p class="text-[var(--color-text-muted)] mb-8">{posts.length}件の記事</p>
+
+    {posts.length === 0 ? (
+      <p class="text-[var(--color-text-muted)]">まだ記事がありません。</p>
+    ) : (
+      <div class="grid gap-6 sm:grid-cols-2">
+        {posts.map((post) => <ArticleCard post={post} />)}
+      </div>
+    )}
+  </div>
+</Layout>

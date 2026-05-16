@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../constants/site';
+
+const title = 'About';
+const description = `${SITE.name}について - 運営者紹介とサイトの目的`;
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8">About</h1>
+
+    <section class="prose">
+      <h2>このサイトについて</h2>
+      <p>
+        {SITE.name}（アイクシア・ラボ）は、コーディング未経験者がAI Codingツールを実際に使いながら、
+        その体験や学びを記録・発信するブログメディアです。
+      </p>
+      <p>
+        Claude Code、OpenCode、Cursor など、様々なAI Codingツールが登場していますが、
+        「プログラミング未経験者にとって、どれが使いやすいのか？」という視点での情報はまだ少ないと感じました。
+      </p>
+      <p>
+        このサイトでは、実際に手を動かして検証した結果を、同じく未経験からAIを活用してものづくりを始めたい方々と共有します。
+      </p>
+
+      <h2>運営者について</h2>
+      <p>
+        プログラミング未経験のまま、AI Codingツールの可能性に魅了された者です。
+        本業はソフトウェアエンジニアではなく、AIツールを活用して非エンジニアがどこまで開発できるかの検証を行っています。
+      </p>
+
+      <h2>カテゴリについて</h2>
+      <ul>
+        <li><strong>ツールレビュー</strong>: 各AI Codingツールの使用感・評価</li>
+        <li><strong>ツール比較</strong>: 複数ツールの横断比較</li>
+        <li><strong>実装してみた</strong>: 実際にAI Codingで作ったものの記録</li>
+        <li><strong>学習記録</strong>: AI Codingに関する学び・気づき</li>
+      </ul>
+
+      <h2>お問い合わせ</h2>
+      <p>
+        ご意見・ご感想は、SNSまたは公開中のプロフィールリンクからご連絡ください。
+      </p>
+    </section>
+  </div>
+</Layout>

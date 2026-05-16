@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES } from '../../constants/site';
+
+const allPosts = await getCollection('blog');
+const categoryCounts = CATEGORIES.map((cat) => ({
+  name: cat,
+  count: allPosts.filter((p) => p.data.category === cat).length,
+}));
+---
+
+<Layout title="カテゴリ一覧" description="AIXIA Labのカテゴリ一覧">
+  <div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-2xl font-bold mb-8">カテゴリ</h1>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {categoryCounts.map((cat) => (
+        <a
+          href={`/categories/${encodeURIComponent(cat.name)}/`}
+          class="block p-6 rounded-lg border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 transition-colors no-underline"
+        >
+          <h2 class="text-lg font-bold mb-1">{cat.name}</h2>
+          <p class="text-sm text-[var(--color-text-muted)]">{cat.count}件の記事</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

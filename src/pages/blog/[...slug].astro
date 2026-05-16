@@ -1,0 +1,26 @@
+---
+import BlogPost from '../../layouts/BlogPost.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id)
+  .filter((p) => p.data.category === post.data.category || p.data.tags.some((t) => post.data.tags.includes(t)))
+  .slice(0, 4);
+
+const { Content, headings } = await render(post);
+---
+
+<BlogPost post={post} relatedPosts={relatedPosts} headings={headings}>
+  <Content />
+</BlogPost>
